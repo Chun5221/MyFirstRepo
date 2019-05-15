@@ -1,0 +1,277 @@
+---
+title: "R introduction"
+author: "H24061210"
+date: "2019/5/14—¥"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#Getting started to R 
+## Simple calculation
+
+* We can type simple arithmetical expressions:
+```{r}
+5 + 49
+3 - 8
+12 / 4
+```
+
+If you want to quit your R session when it is running, type:
+
+`q()`
+
+* Some other calculation with R
+```{r}
+3^4
+31 %% 7
+```
+>Which mean the remainder after division of 31 by 7
+
+```{r}
+31 %/% 7
+```
+>And the integer part of a fraction
+
+```{r}
+7 * 4^2 + 3
+```
+>$$7 * 4^2 + 3$$
+
+##Logical vectors
+We have used the `c()` function to put numeric vectors together as well
+as character vectors.\
+\*Some examples¡G\*
+```{r}
+c(1,2,2,3,3,3)
+```
+```{r}
+a=c(TRUE,FALSE,FALSE,TRUE,FALSE)
+sum(a)
+```
+>Because \"TRUE\" implies 1,\"FALSE\" implies 0.
+
+##Data input and output
+1. To work with data in the folder **mydata** on the **C: drive**, type `setwd("c:/mydata")` or `setwd("c:\\ mydata")`
+2. To save object you heve **constructed** for a future session, type\
+`dump("usefuldata", "useful.R")`
+
+##Programming statistical graphics
+1. Barchart: `barplot()`\
+  for example:
+```{r}
+x=c(1,2,3,4)
+barplot(x)
+```
+2. pie chart: `pie()`\
+  for example:
+```{r}
+groupsizes <- c(18, 30, 32, 10, 10)
+labels <- c("A", "B", "C", "D", "F")
+pie(groupsizes, labels, col=c("grey40", "white", "grey", "black", "grey90"))
+```
+3. Histograms:`hist()`
+  for example:
+```{r}
+x <- rnorm(100)
+hist(x)
+```
+4. QQ plots:`qqplot()`
+  for example:
+```{r}
+X <- rnorm(1000)
+A <- rnorm(1000)
+qqplot(X, A, main="A and X are the same")
+```
+
+>The line is almost straight.
+
+###Adding to plots
+We can just simply type `plot()` and get a graphic, what else can we do?\
+*points(x, y, ...)*\
+*lines(x, y, ...) adds line segments*\
+*text(x, y, labels, ...) adds text into the graph*\
+*abline(a, b, ...) adds the line y = a + bx*\
+*abline(h=y, ...) adds a horizontal line*\
+*abline(v=x, ...) adds a vertical line*\
+*polygon(x, y, ...) adds a closed and possibly filled polygon*\
+*segments(x0, y0, x1, y1, ...) draws line segments*\
+*arrows(x0, y0, x1, y1, ...) draws arrows*\
+*symbols(x, y, ...) draws circles, squares, thermometers, etc.*\
+*legend(x, y, legend, ...) draws a legend.*
+
+####Also, there is another way to plot a function by using `curve()`.
+
+#Programming with R
+##Flow control
+###1. The *for()* loop
+* The for() statement allows one to specify that a **certain operation**
+should be **repeated** a fixed number of times.\
+* Syntax¡G
+`for (name in vector) {commands}`\
+  forexample:\
+The Fibonacci sequence is a famous sequence in mathematics.
+
+```{r}
+Fibonacci <- numeric(12)
+Fibonacci[1] <- Fibonacci[2] <- 1
+for (i in 3:12) Fibonacci[i] <- Fibonacci[i - 2] + Fibonacci[i - 1]
+Fibonacci
+```
+Or we can use for loop to calculate more complex math questuion.
+```{r}
+i <- 0.006
+for (j in 1:1000) {
+  i<-(1-(1+i)^(-20))/19
+}
+i
+```
+
+###2. The *if()* statement
+* The if() statement allows us to control **which**
+statements are executed.
+* Syntax¡G\
+`if (condition) {commands when TRUE}`\
+`if (condition) {commands when TRUE} else {commands when FALSE}`\
+
+* To avoid ambiguities such as this, a common convention for typing
+if ... else is¡G\
+```{r,eval=FALSE}
+if (condition) {
+  commands when TRUE
+} else {
+  commands when FALSE
+}
+```
+###3. The *while()* loop
+* The while() statement accomplishes **repeat** statements
+* Syntax¡G\
+`while (condition) {statements}`
++ The condition is evaluated, and if it evaluates to FALSE, nothing more
+is done.
+
+###4. The *repeat* loop, and the *break*
+* Syntax : 
+`repeat { statements }`\
+This causes the statements to be **repeated endlessly**.
+* Syntax :
+`if (condition) break`
++ The **break** statement causes the loop to *terminate immediately*. **break**
+statements can also be used in **for()** and **while()** loops.
+
+##Define a function with R
+* Functions are self-contained units with a well-defined purpose.In general,
+functions take **inputs**, *do calculations* (possibly *printing intermediate
+results*, *drawing graphs*, *calling other functions,* etc.), and produce **outputs**.
++ For example¡G
+```{r}
+annuityAmt <- function(n, R, i) {
+  R*((1+i)^n-1)/i
+}
+annuityAmt(10, 400, 0.05)
+```
+
+>Use function() to calculate the output number with given input.$$R*((1+i)^n-1)/i$$
+
+## Computational linear algebra
+$$3*1-4x2=6\\
+x1+2*2=-3$$
+
+>####Q:How to solve this problem quickly?
+ ####A:Construct a matrix.
+ 
+###Constructing matrix objects
+* Syntax¡G\
+`matrix(data, nrow, ncol) ` `# data is a vector of nrow*ncol values`\
+`cbind(d1, d2, ..., dm) ` `# d1, ..., dm are vectors (columns)`\
+`rbind(d1, d2, ..., dn) ` `# d1, ..., dn are vectors (rows)`
+
+```{r}
+A=matrix(c(1,2,3,2,3,4,3,4,5),ncol = 3)
+A
+```
+
+> Now we have a matrix!
+
++ And we can give the columns and rows names.
+```{r}
+colnames(A)<-c('x1','x2','x3')
+rownames(A)<-c('y1','y2','y3')
+A
+```
+
+###Matrix properties
+* The dimension of a matrix is its number of **rows** and its number of **columns**.
+```{r}
+dim(A)
+```
+
++ The diagonal elements can be obtained using the diag()function.
+```{r}
+diag(A)
+```
+
++ The t() function is used to calculate the matrix transpose X^T.
+```{r}
+t(A)
+```
+
+###Solving linear systems
+* The function solve(A, b)gives the solution to systems of equations of
+the form Ax = b.
+```{r,eval=FALSE}
+b=c(1,2,1)
+solve(A,b)
+```
+
+###Eigenvalues and eigenvectors
+* Eigenvalues and eigenvectors can be computed using the function
+eigen().
+```{r}
+eigen(A)
+```
+
+##Simulation
+A operation is used internally by R to produce **pseudorandom
+numbers** automatically with the function `runif()`.
+```{r}
+runif(20,max = 1,min = 0)
+```
+
+###Binomial random variables
+* Syntax¡G\
+1. `dbinom(x, size, prob)`
+
+>Here, *size* and *prob* are the **binomial parameters** *m* and *p*, respectively,
+while x denotes the number of **¡§successes.¡¨** The output from this function
+is the value of **P(X = x)**.
+
+2. `pbinom(n, size, prob)`
+
+>The output from this function is the value of **P(X <= x)**.
+
+3.`qbinom()`
+>This function gives the **quantiles** for the binomial distribution.
+
+###Poisson random variables
+* Syntax¡G\
+`dpois(x, lambda)`
+
+>These probabilities can be evaluated using the `dpois()`function.
+
+###Exponential random numbers
+* Syntax¡G`pexp(q, rate)`
+$$P(T<=t)=1-e^£ft$$
+
+>The `pexp()` function can be used to evaluate thisfunction.
+
+###Normal random variables
+* Syntax¡G`rnorm(n, mean, sd)`
+
+>This produces n **normal pseudorandom** variates which have mean *mean*
+and standard deviation *sd*.
+
+$$f(x)=1/(£m*¡Ô2£k)*e^(-((x-£g)^2/(2£m^2)))$$
